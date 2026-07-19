@@ -17,53 +17,36 @@ model = "openai/gpt-oss-120b"
 
 job_description="""
 Description
-The Full Stack Developer – Corporate Risk Reporting role focuses on the risk visualization layer of the Corporate Risk Reporting (CRR) platform. The role is responsible for building application capabilities that enable fast, flexible, and intuitive consumption of enterprise risk data for internal risk management users.
-Within the CRR architecture, core risk logic is implemented in PostgreSQL, with curated risk results published into OpenSearch to support high-performance reporting, fuzzy filtering, and interactive exploration. This role remains hands-on in building solutions using .NET-based backend services and React-based frontend applications, while also leading and coaching junior full stack developers to deliver cohesive, high-quality visualization capabilities.
-The position plays a key role in translating complex risk datasets into scalable and user-friendly reporting experiences, while setting technical direction and standards for the CRR visualization layer.
-Key Accountabilities
-RISK VISUALIZATION DELIVERY:
-Designs and implements user-facing risk reporting capabilities that enable efficient visualization and exploration of enterprise risk data, including positions, P&L, FX exposures, and entering adjustments.
+Do you want to solve real customer problems through innovative technology? Do you enjoy working on scalable services in a collaborative team environment? Do you want to see your code directly impact millions of customers worldwide?
 
-FRONTEND EXPERIENCE DELIVERY:
-Development of high-performance and intuitive user interfaces using React and AgGrid, optimized for large datasets and advanced interaction patterns such as drilldowns, pivots, filtering, and navigation.
+At Amazon, we hire the best minds in technology to innovate and build on behalf of our customers. Customer obsession is part of our company DNA, which has made us one of the world's most beloved brands.
 
-BACKEND SERVICES AND APIs:
-Develops .NET-based backend services that mediate access to OpenSearch, support aggregation and query orchestration, and enable consistent data consumption patterns.
+Our Software Development Engineers (SDEs) use modern technology to solve complex problems while seeing their work's impact first-hand. The challenges SDEs solve at Amazon are meaningful and influence millions of customers, sellers, and products globally. We seek individuals passionate about creating new products, features, and services while managing ambiguity in an environment where development cycles are measured in weeks, not years.
 
-OPENSEARCH CONSUMPTION:
-Implements effective OpenSearch query, indexing and consumption patterns to support fast retrieval, fuzzy filtering, and flexible exploration of risk data published from PostgreSQL.
+At Amazon, we believe in ownership at every level. As an SDE-I, you'll own the entire lifecycle of your code - from design through deployment and ongoing operations. This ownership mindset, combined with our commitment to operational excellence, ensures we deliver the highest quality solutions for our customers.
 
-ENGINEERING QUALITY:
-Enforces engineering standards for the visualization layer, including code quality, testing practices, and CI/CD adoption, ensuring maintainable and reliable solutions.
-
-PERFORMANCE AND USABILITY:
-Owns performance and usability outcomes for the visualization layer, actively identifying and addressing bottlenecks across frontend, backend, and OpenSearch interactions.
-
-COLLABORATION:
-Works closely with the CRR Development Lead and Senior Business Analyst to align visualization capabilities with platform architecture and business risk requirements.
-
-CONTINUOUS IMPROVEMENT:
-Continuously evaluates and improves visualization patterns, technical approaches, and team practices to enhance the effectiveness and scalability of CRR risk reporting.
-
-Qualifications
-Minimum requirement of 3 years of relevant work experience, typically reflecting 5+ years in delivering full-stack applications in data-intensive or analytics-driven environments.
-
-Demonstrated experience delivery of user-facing reporting or analytics solutions, with proven ability to guide and mentor other engineers.
-
-Required Skills:
-
-Mandatory:
-
-Strong experience developing backend services using .NET
-Strong experience building frontend applications using React
-Hands-on experience with AgGrid for large, data-intensive reporting views
-Exposure to cloud-native deployment models and CI/CD pipelines
-Good to Have:
-
-Experience working with risk, finance, or trading reporting platforms
-Experience consuming and querying OpenSearch for fast, flexible reporting and fuzzy filtering
-Familiarity with PostgreSQL-backed data solutions
-Experience coaching or mentoring engineers in a delivery-focused environment
+We're looking for curious minds who think big and want to define tomorrow's technology. At Amazon, you'll grow into the high-impact engineer you know you can be, supported by a culture of learning and mentorship. Every day brings exciting new challenges and opportunities for personal growth.
+Key job responsibilities
+• Collaborate and communicate effectively with experienced cross-disciplinary Amazonians to design, build, and operate innovative products and services that delight our customers, while participating in technical discussions to drive solutions forward.
+• Design and develop scalable solutions using cloud-native architectures and microservices in a large distributed computing environment.
+• Participate in code reviews and contribute to technical documentation.
+• Build and maintain resilient distributed systems that are scalable, fault-tolerant, and cost-effective.
+• Leverage and contribute to the development of GenAI and AI-powered tools to enhance development productivity while staying current with emerging technologies.
+• Write clean, maintainable code following best practices and design patterns.
+• Work in an agile environment practicing CI/CD principles while participating in operational responsibilities including on-call duties.
+• Demonstrate operational excellence through monitoring, troubleshooting, and resolving production issues.
+Basic Qualifications
+- Experience with at least one general-purpose programming language such as Java, Python, C++, C#, Go, Rust, or TypeScript
+- Experience with data structure implementation, basic algorithm development, and/or object-oriented design principles
+- Currently has, or is in the process of obtaining a bachelor’s degree in Computer Science, Computer Engineering, Data Science, Information Systems, or related STEM fields
+- Must be 18 years of age of older
+Preferred Qualifications
+- Experience from previous technical internship(s) or demonstrated project experience
+- Experience with one or more of the following: AI tools for development productivity, Cloud platforms (preferably AWS), Database systems (SQL and NoSQL), Contributing to open-source projects, Version control systems, Debugging and troubleshooting complex systems
+- Demonstrated ability to learn and adapt to new technologies quickly
+- Basic understanding of software development lifecycle (SDLC)
+- Strong problem-solving and analytical skills
+- Excellent written and verbal communication skills
 """
 class JobD(BaseModel):
     role: str
@@ -126,10 +109,6 @@ import json
 job_data=json.loads(raw_json)
 
 job = JobD(**job_data)
-
-print("minimum job experience requirements for this job->",job.minimum_experience)
-print("minimum education requirements for this job ->",job.education_requirements)
-
 
 
 #parse real
@@ -294,14 +273,16 @@ for file_path in resume_folder.iterdir():
    
     if file_path.suffix.lower() not in [".pdf", ".docx"]:
         continue
-    print("\nProcessing:", file_path.name)
+    print("\n" + "=" * 70)
+    print(f"📄 Processing Resume : {file_path.name}")
+    print("=" * 70)
     resume_text = read_resume(file_path)
     parsed_resume=parse_resume(resume_text) # llm call1
     time.sleep(5)
     result = final_score(job, parsed_resume) #llm caLL2
     
     time.sleep(5)
-    print("Score:", result.score)
+    print(f"✅ Match Score : {result.score}%")
     all_results.append({
         "name": parsed_resume.name,
         "score": result.score,
@@ -315,27 +296,45 @@ top_2 = all_results[:2]
 worst_2 = all_results[-2:]
 
 
-print("\n","TOP 2 CANDIDATES AMONG ALL RESUME:")
+print("\n" + "=" * 70)
+print("🏆 TOP 2 CANDIDATES")
+print("=" * 70)
+
 for candidate in top_2:
-    print(
-        "\n",
-        candidate["name"],
-        "-",
-        candidate["score"],
-        "%"
-    )
-    print("\n",candidate["details"])
+
+    details = candidate["details"]
+
+    print(f"\n👤 Candidate : {candidate['name']}")
+    print(f"📊 Match Score : {candidate['score']}%")
+
+    print("\n✅ Matching Skills:")
+    for skill in details.get("matching_skills", []):
+        print(f"   • {skill}")
+
+    print("\n❌ Missing Skills:")
+    for skill in details.get("missing_important_skills", []):
+        print(f"   • {skill}")
+
+    print(f"\n✔ Experience Requirement Met : {details.get('experience_requirement_met')}")
+
+    print(f"\n💬 Verdict :")
+    print(details.get("final_verdict", details.get("verdict")))
+
+    print("\n" + "-" * 70)
 
 
-print("\n","LOWEST 2 CANDIDATES AMONG ALL RESUME:")
+print("\n" + "=" * 70)
+print("📉 LOWEST 2 CANDIDATES")
+print("=" * 70)
+
 for candidate in worst_2:
-    
-    print(
-        "\n",
-        candidate["name"],
-        "-",
-        candidate["score"],
-        "%","\n"
-    )
-    
-    print(candidate["details"])
+
+    details = candidate["details"]
+
+    print(f"\n👤 Candidate : {candidate['name']}")
+    print(f"📊 Match Score : {candidate['score']}%")
+
+    print("\n💬 Verdict :")
+    print(details.get("final_verdict", details.get("verdict")))
+
+    print("\n" + "-" * 70)
